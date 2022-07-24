@@ -2,6 +2,11 @@
   "name": "axiosplus",
   "version": "1.0.0",
   "description": "Simply axios plus some extra features",
+  "homepage": "https://github.com/eddiedane/axiosplus#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eddiedane/axiosplus.git"
+  },
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
