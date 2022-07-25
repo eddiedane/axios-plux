@@ -1,4 +1,5 @@
 const axios = require("axios");
+const router = require("./router");
 
 const specialConfigs = ["vars", "routes", "addRouteMethod"];
 const methodsType1 = ["get", "delete", "head", "options"];
@@ -84,10 +85,6 @@ const getPathPlaceholders = (url, arr) => {
     const value = arr[i];
     return value === undefined ? obj : { ...obj, [placeholder]: value };
   }, {});
-};
-
-export const router = (base = "/", routes = []) => {
-  return routes.map((route) => ({ ...route, path: base + route.path }));
 };
 
 const create = (config = {}) => {
@@ -195,4 +192,5 @@ axiosPlus.routes = (routes = []) => {
   globalRoutes = [...globalRoutes, ...routes];
 };
 
-export default axiosPlus;
+module.exports = axiosPlus;
+exports.router = router;
