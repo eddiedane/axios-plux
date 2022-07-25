@@ -1,7 +1,7 @@
 {
   "name": "axios-plux",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simply axios plux some extra features",
   "homepage": "https://github.com/eddiedane/axios-plux#readme",
   "repository": {
