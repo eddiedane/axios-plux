@@ -1,4 +1,4 @@
-import axios from "axios";
+const axios = require("axios");
 
 const specialConfigs = ["vars", "routes", "addRouteMethod"];
 const methodsType1 = ["get", "delete", "head", "options"];
