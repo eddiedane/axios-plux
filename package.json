@@ -1,11 +1,12 @@
 {
-  "name": "@eddiedane/axios-plus",
+  "name": "axios-plux",
+  "private": false,
   "version": "1.0.0",
-  "description": "Simply axios plus some extra features",
-  "homepage": "https://github.com/eddiedane/axios-plus#readme",
+  "description": "Simply axios plux some extra features",
+  "homepage": "https://github.com/eddiedane/axios-plux#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/eddiedane/axios-plus.git"
+    "url": "https://github.com/eddiedane/axios-plux.git"
   },
   "main": "src/index.js",
   "scripts": {
@@ -16,7 +17,9 @@
     "xhr",
     "ajax",
     "axiosplus",
-    "axios-plus"
+    "axios-plus",
+    "axiosplux",
+    "axios-plux"
   ],
   "author": "Eddie Dane",
   "license": "ISC",

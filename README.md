@@ -1,11 +1,11 @@
-# Axios Plus
+# Axios Plux
 
-Simply axios plus some extra features
+Simply axios plux some extra features
 
 ## Basic usage
 
 ```
-import $axios from 'axios-plus'
+import $axios from 'axios-plux'
 // you can still do basically normal axios stuff
 $axios.get(url, config)
 $axios.post(url, data, config)
@@ -22,10 +22,10 @@ const $myAxios = $axios.create(config)
 
 ## Routes definition
 
-Route can be defined globally, or scoped to and axios plus instance and can be easily reused throughout your code
+Route can be defined globally, or scoped to and axios plux instance and can be easily reused throughout your code
 
 ```
-import $axios from 'axios-plus'
+import $axios from 'axios-plux'
 
 // Global routes
 $axios.routes([
@@ -67,7 +67,7 @@ name route can be referenced in the url parameter
 by preceeding the route name with a $ sign
 
 ```
-import $axios from 'axios-plus'
+import $axios from 'axios-plux'
 
 axiosß
   .get('$fetchThirdPartyData')
@@ -84,7 +84,7 @@ route functions can only be created at a scoped instance i.e. using $axios.creat
 this feature is disable by default
 
 ```
-import $axions from 'axios-plus'
+import $axions from 'axios-plux'
 
 // enabling route functions, by setting addRouteMethod to true in the config
 const $myAxios = $axios.create({
@@ -124,7 +124,7 @@ e.g. http://domain.tld/path/:placeholder/action
 Simple example
 
 ```
-import $axios from 'axiosPlus'
+import $axios from 'axiosPlux'
 
 $axios.delete('http://localhost:8080/users/:userId', {
   vars: {userId: 1}
@@ -134,7 +134,7 @@ $axios.delete('http://localhost:8080/users/:userId', {
 Named route example
 
 ```
-import $axios from 'axiosPlus'
+import $axios from 'axiosPlux'
 
 const $myAxios = $axios.create({
   addRouteMethod: true,
@@ -159,7 +159,7 @@ Config data can be added to request data by adding a $ sign before the config pr
 Difference
 
 ```
-import $axios from 'axios-plus'
+import $axios from 'axios-plux'
 
 /* Consolidated */
 
