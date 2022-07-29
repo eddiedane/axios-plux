@@ -38,7 +38,7 @@ const resolveUrl = (url, routes) => {
 
     if (match) return match;
 
-    throw new Error(`AxiosPlus: route "${url}" does not exist`);
+    throw new Error(`AxiosPlux: route "${url}" does not exist`);
   } else return { path: url };
 };
 
@@ -49,7 +49,7 @@ const fillPath = (url, placeholdersData = {}) => {
 
     if (replacement === match) {
       console.warn(
-        `AxiosPlus: url placeholder "${match}" has no matching replacement value`
+        `AxiosPlux: url placeholder "${match}" has no matching replacement value`
       );
     }
 
@@ -96,12 +96,12 @@ const create = (config = {}) => {
   const _axios = axios.create(createConfig);
   const _routes = createSpecial.routes || [];
 
-  const axiosPlus = (config) => {
+  const axiosPlux = (config) => {
     const method = (config.method || "get").toLowerCase();
-    return axiosPlus[method](config.url, { $data: config.data });
+    return axiosPlux[method](config.url, { $data: config.data });
   };
 
-  axiosPlus.router = router;
+  axiosPlux.router = router;
 
   const request = (method, url, data$config, config) => {
     const { data, $config, $special } = resolveData$Config(data$config);
@@ -110,7 +110,7 @@ const create = (config = {}) => {
     const urlObj = resolveUrl(url, _routes);
 
     if (typeof urlObj.path != "string") {
-      throw new Error("AxiosPlus: invalid url/path");
+      throw new Error("AxiosPlux: invalid url/path");
     }
 
     const resolvedUrl = fillPath(urlObj.path, {
@@ -140,7 +140,7 @@ const create = (config = {}) => {
       const method = route.method || "get";
       const url = route.name ? "$" + route.name : route.path;
 
-      axiosPlus[route.name] = methodsType1.includes(method)
+      axiosPlux[route.name] = methodsType1.includes(method)
         ? (...args) => {
             const config = resolveNamedRouteConfig(route.path, args);
             return request(method, url, {}, config);
@@ -152,28 +152,28 @@ const create = (config = {}) => {
   }
 
   methodsType1.forEach((method) => {
-    axiosPlus[method] = (url, config) => {
+    axiosPlux[method] = (url, config) => {
       return request(method, url, {}, config);
     };
   });
 
   methodsType2.forEach((method) => {
-    axiosPlus[method] = (url, data$config, config) => {
+    axiosPlux[method] = (url, data$config, config) => {
       return request(method, url, data$config, config);
     };
   });
 
-  axiosPlus.axios = _axios;
-  axiosPlus.onRequest = (interceptor, error) => {
+  axiosPlux.axios = _axios;
+  axiosPlux.onRequest = (interceptor, error) => {
     _axios.interceptors.request.use(interceptor, error);
   };
-  axiosPlus.onRequestError = (interceptor) => {
+  axiosPlux.onRequestError = (interceptor) => {
     _axios.interceptors.request.use((config) => config, interceptor);
   };
-  axiosPlus.onResponse = (interceptor, error) => {
+  axiosPlux.onResponse = (interceptor, error) => {
     _axios.interceptors.response.use(interceptor, error);
   };
-  axiosPlus.onResponseError = (interceptor) => {
+  axiosPlux.onResponseError = (interceptor) => {
     _axios.interceptors.response.use(
       (res) => res,
       (error) => {
@@ -183,14 +183,14 @@ const create = (config = {}) => {
     );
   };
 
-  return axiosPlus;
+  return axiosPlux;
 };
 
-const axiosPlus = create();
-axiosPlus.create = create;
-axiosPlus.routes = (routes = []) => {
+const axiosPlux = create();
+axiosPlux.create = create;
+axiosPlux.routes = (routes = []) => {
   globalRoutes = [...globalRoutes, ...routes];
 };
 
-module.exports = axiosPlus;
+module.exports = axiosPlux;
 exports.router = router;

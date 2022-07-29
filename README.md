@@ -19,6 +19,7 @@ const $myAxios = $axios.create(config)
 - Functional routes
 - Url path placeholder
 - Data and config consolidation (just for syntax)
+- Extras: shorthands, setup, and helpers
 
 ## Routes definition
 
@@ -69,7 +70,7 @@ by preceeding the route name with a $ sign
 ```
 import $axios from 'axios-plux'
 
-axiosß
+axios
   .get('$fetchThirdPartyData')
   .then(res => console.log(res))
   .catch(err => console.log(err.stack, err.response))
@@ -104,7 +105,7 @@ const $myAxios = $axios.create({
 })
 ```
 
-Now a fetchUsers method will now be availble in the $myAxios instance,
+Now a fetchTwelveUsers method will now be availble in the $myAxios instance,
 and can be used as demonstrated below
 
 ```
@@ -154,7 +155,7 @@ $axios.fetchUser((
 
 ## Data and config consolidation (just for syntax)
 
-Config data can be added to request data by adding a $ sign before the config property this distiguises the data and the configs
+The request config can be added to request data by adding a $ sign before the config property this distiguises the data and the configs
 
 Difference
 
@@ -169,10 +170,10 @@ $axios.post('$createNewUser', {
   location: 'eden',
 
   $headers: {
-    authorization: 'jdhowehowihoihe0fw09ruwfnohwh08wf'
+    authorization: 'whatisknowledge'
   }
 
-  $placeholders: {
+  $vars: {
     role: 'admin',
   }
 })
@@ -188,12 +189,115 @@ $axios.post(
   },
   {
     headers: {
-      authorization: 'jdhowehowihoihe0fw09ruwfnohwh08wf'
+      authorization: 'whatisknowledge'
     }
 
-    placeholders: {
+    vars: {
       role: 'admin',
     }
   }
 )
+```
+
+# Extras: shorthands and helpers
+
+## URL placeholders in functional routes
+
+You can further simplify fuctional route request with placeholder by...
+
+- Passing the placeholders as arguments
+- Using an array instead of an object in the `config.vars`
+
+Example
+
+```
+  import $axios from 'axios-plux'
+
+  const $myAxios = $axios.create({
+    addRouteMethods: true,
+    baseUrl: 'https://api.my-store.com/',
+    routes: [
+      {
+        name: 'fetchOrderItem',
+        path: 'orders/:id/items/itemId',
+      }
+    ]
+  })
+
+  /* Using arguments */
+
+  await $myAxios.fetchOrderItem(1, 2);
+
+  /* Using config.vars as an array */
+
+  await $myAxios.fetchOrderItem({
+    vars: [1, 2]
+  })
+
+  /* Using config.vars as an object */
+
+  await $myAxios.fetchOrderItem({
+    vars: {
+      id: 1,
+      itemId: 2
+    }
+  })
+```
+
+## Interceptors helpers
+
+There some helper methods only available on axios plux instance
+
+```
+  import $axios from "axios-plux"
+
+  const $myAxios = $axios.create({})
+
+  $myAxios.onRequest()
+  $myAxios.onRequestError()
+  $myAxios.onResponse()
+  $myAxios.onResponseError()
+
+```
+
+## Setup examples
+
+Checkout [examples here](https://github.com/eddiedane/axios-plux/tree/main/examples).
+
+## router(basePath, routes) helper
+
+Help factor out the base path for a set of routes
+
+```
+// categories.js
+
+import { router } from "axios-plux";
+
+export default router("categories", [
+  {
+    name: "fetchCategories",
+    path: "",
+    method: "get",
+  },
+  {
+    name: "updateCategory",
+    path: "/:id",
+    method: "put"
+  }
+]);
+
+/* Without router() */
+
+export default [
+  {
+    name: "fetchCategories",
+    path: "categories",
+    method: "get",
+  },
+  {
+    name: "updateCategory",
+    path: "categories/:id",
+    method: "put"
+  }
+]
 ```
