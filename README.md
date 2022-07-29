@@ -1,15 +1,25 @@
 # Axios Plux
 
-Simply axios plux some extra features
+Simply axios plus some extra features
 
 ## Basic usage
 
 ```
 import $axios from 'axios-plux'
+
 // you can still do basically normal axios stuff
+
 $axios.get(url, config)
+
 $axios.post(url, data, config)
+
 const $myAxios = $axios.create(config)
+
+// plus...
+
+$myAxios.fetchUser(1)
+
+$myAxios.onRequestError((err) => {});
 ```
 
 ## Special Features
