@@ -39,7 +39,11 @@ interface SpecialInstanceConfig<T = Routes> extends SpecialConfig {
   $routes?: T;
 }
 
-interface RequestConfig<D = any> extends AxiosRequestConfig<D>, Request$Config, SpecialConfig, Special$Config {}
+interface RequestConfig<D = any>
+  extends AxiosRequestConfig<D>,
+    Request$Config,
+    SpecialConfig,
+    Special$Config {}
 
 interface RequestData$Config<D = any> extends RequestConfig<D> {
   [key: string]: any;
@@ -60,16 +64,30 @@ interface ObjectLiteral {
   [key: string]: any;
 }
 
-interface InstanceConfig<D = any> extends AxiosRequestConfig<D>, SpecialInstanceConfig {}
+interface InstanceConfig<D = any>
+  extends AxiosRequestConfig<D>,
+    SpecialInstanceConfig {}
 
 interface AxiosPluxInstance<RT = ObjectLiteral> {
   (config: RequestData$Config): AxiosPromise;
   (url: string, config?: RequestData$Config): AxiosPromise;
 
-  get<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: RequestConfig<D>): Promise<R>;
-  head<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: RequestConfig<D>): Promise<R>;
-  options<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: RequestConfig<D>): Promise<R>;
-  delete<T = any, R = AxiosResponse<T>, D = any>(url: string, config?: RequestConfig<D>): Promise<R>;
+  get<T = any, R = AxiosResponse<T>, D = any>(
+    url: string,
+    config?: RequestConfig<D>,
+  ): Promise<R>;
+  head<T = any, R = AxiosResponse<T>, D = any>(
+    url: string,
+    config?: RequestConfig<D>,
+  ): Promise<R>;
+  options<T = any, R = AxiosResponse<T>, D = any>(
+    url: string,
+    config?: RequestConfig<D>,
+  ): Promise<R>;
+  delete<T = any, R = AxiosResponse<T>, D = any>(
+    url: string,
+    config?: RequestConfig<D>,
+  ): Promise<R>;
   post<T = any, R = AxiosResponse<T>, D = any>(
     url: string,
     data$Config?: RequestData$Config<D>,
@@ -101,7 +119,9 @@ interface AxiosPluxInstance<RT = ObjectLiteral> {
     config?: RequestConfig<D>,
   ): Promise<R>;
 
-  onRequest(interceptor: (config: AxiosRequestConfig) => AxiosRequestConfig): void;
+  onRequest(
+    interceptor: (config: AxiosRequestConfig) => AxiosRequestConfig,
+  ): void;
 
   onRequestError(interceptor: (err: any) => any): void;
 
@@ -138,7 +158,10 @@ interface Request$Config<D = any> {
   $validateStatus?: ((status: number) => boolean) | null;
   $maxBodyLength?: number;
   $maxRedirects?: number;
-  $beforeRedirect?: (options: Record<string, any>, responseDetails: { headers: Record<string, string> }) => void;
+  $beforeRedirect?: (
+    options: Record<string, any>,
+    responseDetails: { headers: Record<string, string> },
+  ) => void;
   $socketPath?: string | null;
   $httpAgent?: any;
   $httpsAgent?: any;
@@ -181,20 +204,32 @@ type MethodType0 = 'get' | 'head' | 'delete' | 'options';
 type MethodType1 = 'post' | 'put' | 'patch';
 
 export interface RouteType0 {
-  <T = any, R = AxiosResponse<T>, D = any>(...args: (string | number | boolean)[]): Promise<AxiosResponse<T, D>>;
+  <T = any, R = AxiosResponse<T>, D = any>(
+    ...args: (string | number | boolean)[]
+  ): Promise<AxiosResponse<T, D>>;
 
-  <T = any, R = AxiosResponse<T>, D = any>(config: RequestData$Config<D>): Promise<R>;
+  <T = any, R = AxiosResponse<T>, D = any>(
+    config: RequestData$Config<D>,
+  ): Promise<R>;
 }
 
 export interface RouteType1 {
-  <T = any, R = AxiosResponse<T>, D = any>(...args: (string | number | boolean)[]): Promise<R>;
+  <T = any, R = AxiosResponse<T>, D = any>(
+    ...args: (string | number | boolean)[]
+  ): Promise<R>;
 
-  <T = any, R = AxiosResponse<T>, D = any>(data$Config: RequestData$Config<D>, config: RequestConfig<D>): Promise<R>;
+  <T = any, R = AxiosResponse<T>, D = any>(
+    data$Config: RequestData$Config<D>,
+    config: RequestConfig<D>,
+  ): Promise<R>;
 }
 
 let globalAxiosPlux: AxiosPlux<void>;
 
-const getData$Config = (data$Config: RequestData$Config | FormData, includesData: boolean = false): ConfigParts => {
+const getData$Config = (
+  data$Config: RequestData$Config | FormData,
+  includesData: boolean = false,
+): ConfigParts => {
   const parts: ConfigParts = {
     config: {},
     special: {},
@@ -230,14 +265,28 @@ const getData$Config = (data$Config: RequestData$Config | FormData, includesData
   }
 };
 
-const resolveNamedRouteConfig = (url: string, args: any[]): RequestData$Config => {
+const resolveNamedRouteConfig = (
+  url: string,
+  args: any[],
+): RequestData$Config => {
   let config: RequestData$Config = {};
 
-  if (args[0] == null || (typeof args[0] === 'object' && !Array.isArray(args[0]))) {
+  if (
+    args[0] == null ||
+    (typeof args[0] === 'object' && !Array.isArray(args[0]))
+  ) {
     config = mergeConfigs(args[0] || {}, args[1]);
     if (Array.isArray(config.vars || config.$vars)) {
-      if ('vars' in config) config.vars = getPathPlaceholders(url, config.vars as (string | number)[]);
-      else config.vars = getPathPlaceholders(url, config.$vars as (string | number)[]);
+      if ('vars' in config)
+        config.vars = getPathPlaceholders(
+          url,
+          config.vars as (string | number)[],
+        );
+      else
+        config.vars = getPathPlaceholders(
+          url,
+          config.$vars as (string | number)[],
+        );
     }
   } else {
     config = {
@@ -260,7 +309,10 @@ const getPathPlaceholders = (url: string, arr: (string | number)[]) => {
   }, {}) as ObjectLiteral;
 };
 
-const mergeConfigs = (config1: RequestData$Config, config2: RequestData$Config): RequestData$Config => {
+const mergeConfigs = (
+  config1: RequestData$Config,
+  config2: RequestData$Config,
+): RequestData$Config => {
   let config;
   config = { ...config1, ...config2 };
   return config;
@@ -272,7 +324,8 @@ const strrep = (
   options = { rgx: /:(\w+)/g, valueCaptureIndex: 0 },
 ): string => {
   return str.replace(options.rgx, (match, ...matchData) => {
-    const replacement = placeholdersData[matchData[options.valueCaptureIndex]] || match;
+    const replacement =
+      placeholdersData[matchData[options.valueCaptureIndex]] || match;
 
     if (replacement === match) {
       throw new Error(`"${match}" has no matching replacement value`);
@@ -286,7 +339,9 @@ const includes = (needle: any, haystack: any[]): boolean => {
   return haystack.findIndex((item) => item === needle) >= 0;
 };
 
-const createResolvePromise = <T = any, R = AxiosResponse<T>>(res: R): Promise<R> => {
+const createResolvePromise = <T = any, R = AxiosResponse<T>>(
+  res: R,
+): Promise<R> => {
   return new Promise((resolve) => {
     resolve(res);
   });
@@ -337,17 +392,22 @@ const cacheRequest = <R>(
       storedResponse.waiting = promise;
     }
 
-    return onUpdate && storedResponse ? createResolvePromise(storedResponse.data) : promise;
+    return onUpdate && storedResponse
+      ? createResolvePromise(storedResponse.data)
+      : promise;
   }
 
   return createResolvePromise(storedResponse.data);
 };
 
-const create = <RT = ObjectLiteral>(instanceConfig: InstanceConfig = {}): AxiosPluxInstance<RT> => {
+const create = <RT = ObjectLiteral>(
+  instanceConfig: InstanceConfig = {},
+): AxiosPluxInstance<RT> => {
   const dataConfig = getData$Config(instanceConfig);
   const defaultConfig = dataConfig.config;
   const defaultSpecialConfig = dataConfig.special;
-  const globalRoutes = typeof globalAxiosPlux === 'undefined' ? {} : globalAxiosPlux.routes;
+  const globalRoutes =
+    typeof globalAxiosPlux === 'undefined' ? {} : globalAxiosPlux.routes;
 
   const routes = {
     ...globalRoutes,
@@ -358,7 +418,11 @@ const create = <RT = ObjectLiteral>(instanceConfig: InstanceConfig = {}): AxiosP
 
   const _axios = axios.create(defaultConfig);
 
-  const axiosPluxInstance: AxiosPluxInstance<RT> = <T = any, R = AxiosResponse<T>, D = any>(
+  const axiosPluxInstance: AxiosPluxInstance<RT> = <
+    T = any,
+    R = AxiosResponse<T>,
+    D = any,
+  >(
     url: string | RequestData$Config<D>,
     config?: RequestData$Config<D>,
   ): Promise<R> => {
@@ -388,7 +452,10 @@ const create = <RT = ObjectLiteral>(instanceConfig: InstanceConfig = {}): AxiosP
     api[routeName] = <T = any, R = AxiosResponse<T>, D = any>(
       ...args: (string | number | boolean | RequestData$Config<D>)[]
     ) => {
-      const config: RequestData$Config = resolveNamedRouteConfig(route.path, args);
+      const config: RequestData$Config = resolveNamedRouteConfig(
+        route.path,
+        args,
+      );
       return request<T, R, D>(route.path, config, method);
     };
   });
@@ -407,13 +474,17 @@ const create = <RT = ObjectLiteral>(instanceConfig: InstanceConfig = {}): AxiosP
   axiosPluxInstance.putForm = generateHTTPMethod1('put');
   axiosPluxInstance.patchForm = generateHTTPMethod1('patch');
 
-  axiosPluxInstance.onRequest = (interceptor: (config: AxiosRequestConfig) => AxiosRequestConfig) => {
+  axiosPluxInstance.onRequest = (
+    interceptor: (config: AxiosRequestConfig) => AxiosRequestConfig,
+  ) => {
     _axios.interceptors.request.use(interceptor, (err) => err);
   };
   axiosPluxInstance.onRequestError = (interceptor: (err: any) => any) => {
     _axios.interceptors.request.use((config) => config, interceptor);
   };
-  axiosPluxInstance.onResponse = (interceptor: (res: AxiosResponse) => AxiosResponse) => {
+  axiosPluxInstance.onResponse = (
+    interceptor: (res: AxiosResponse) => AxiosResponse,
+  ) => {
     _axios.interceptors.response.use(interceptor, (err) => err);
   };
   axiosPluxInstance.onResponseError = (interceptor: (err: any) => any) => {
@@ -429,7 +500,10 @@ const create = <RT = ObjectLiteral>(instanceConfig: InstanceConfig = {}): AxiosP
   return axiosPluxInstance;
 
   function generateHTTPMethod0(method: MethodType0) {
-    return <T = any, R = AxiosResponse<T>, D = any>(url: string, data$Config: RequestConfig<D>) => {
+    return <T = any, R = AxiosResponse<T>, D = any>(
+      url: string,
+      data$Config: RequestConfig<D>,
+    ) => {
       return request<T, R, D>(url, data$Config, method);
     };
   }
@@ -479,7 +553,12 @@ const create = <RT = ObjectLiteral>(instanceConfig: InstanceConfig = {}): AxiosP
     const requestCaching = specialConfig.cache || defaultSpecialConfig.cache;
 
     if (requestCaching) {
-      return cacheRequest<R>(_axios, fullConfig, cacheStore as CacheStore<R>, requestCaching);
+      return cacheRequest<R>(
+        _axios,
+        fullConfig,
+        cacheStore as CacheStore<R>,
+        requestCaching,
+      );
     }
 
     const promise = _axios(fullConfig).then((res) => res) as Promise<R>;
