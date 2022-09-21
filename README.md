@@ -25,8 +25,6 @@ $myAxios.onRequestError((err) => {});
 ## Special Features
 
 - Routes definition
-- Named routes
-- Functional routes
 - Url path placeholder
 - Data and config consolidation (just for syntax)
 - Extras: shorthands, setup, and helpers
@@ -59,7 +57,7 @@ const $myAxios = $axios.create({
 })
 ```
 
-Note: the scoped routes will have access to the global route
+Note: Scoped instances will have access to the global route
 
 The routes is an array of object (route definition),
 A route is an object that can be defined with 4 properties

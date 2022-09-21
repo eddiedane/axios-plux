@@ -1,0 +1,9 @@
+{
+  "users": [{ "id": 1, "name": "John Doe", "age": 84 }],
+  "posts": [],
+  "about": {
+    "name": "Axios Plux JSON server",
+    "description": "Demo CRUD API server",
+    "version": "1.0.4"
+  }
+}
