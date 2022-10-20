@@ -215,12 +215,8 @@ export interface RouteType0 {
 
 export interface RouteType1 {
   <T = any, R = AxiosResponse<T>, D = any>(
-    ...args: (string | number | boolean)[]
-  ): Promise<R>;
-
-  <T = any, R = AxiosResponse<T>, D = any>(
     data$Config: RequestData$Config<D>,
-    config: RequestConfig<D>,
+    config?: RequestConfig<D>,
   ): Promise<R>;
 }
 
