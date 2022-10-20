@@ -213,12 +213,10 @@ export interface RouteType0 {
   ): Promise<R>;
 }
 
-export interface RouteType1 {
-  <T = any, R = AxiosResponse<T>, D = any>(
-    data$Config: RequestData$Config<D>,
-    config?: RequestConfig<D>,
-  ): Promise<R>;
-}
+export type RouteType1 = <T = any, R = AxiosResponse<T>, D = any>(
+  data$Config: RequestData$Config<D>,
+  config?: RequestConfig<D>,
+) => Promise<R>;
 
 let globalAxiosPlux: AxiosPlux<void>;
 
