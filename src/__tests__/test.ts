@@ -19,7 +19,7 @@ const instanceRoutes = {
 
 axiosPlux.routes = globalRoutes;
 
-const key = '83e7e2e891094e13905a92f35c2e2118';
+const key = '5bd085261ce4460db045d23c8d765421';
 
 const jsonServer = axiosPlux.create<APIRoutes>({
   baseURL: 'https://crudcrud.com/api/' + key,
