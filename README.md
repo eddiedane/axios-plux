@@ -1,5 +1,7 @@
 # Axios Plux
 
+[![Build Status](https://app.travis-ci.com/eddiedane/axios-plux.svg?branch=main)](https://app.travis-ci.com/eddiedane/axios-plux)
+
 Simply axios with some extra cool features
 
 ## Basic usage
