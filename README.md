@@ -69,12 +69,6 @@ A route is an object that can be defined with 4 properties
 
 or a string as the url/path, method as GET
 
-### Named routes
-
-Naming route is extremely useful for portable and reusabality, and promotes consistency with url changes
-
-Now any change made to the route e.g. url will be consistent everywhere the named route was referenced
-
 ## API functional routes
 
 API functional routes is extremely useful for portable and reusabality, and promotes consistency with url changes are a way to both simplify request and reduce url string typos.
