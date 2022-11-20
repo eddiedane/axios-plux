@@ -31,6 +31,7 @@ wikipediaApi.fetchArticle(1)
 ## Special Features
 
 - API functional routes
+- Request caching/memoizing
 - Url path placeholder
 - Data and config consolidation (just for syntax)
 - Extras: shorthands, setup, and helpers
@@ -106,9 +107,19 @@ await myApi.fetchTwelveUsers()
 await myApi.createNewUser(data)
 ```
 
+## Request caching/memoizing
+
+This can help reduce multiple identical request from hitting and straining the server, and also greatly increase response time.
+
+The cache configuration can be added to the request/instance configuration object with 3 possible values types.
+
+1. Boolean: true simply enable caching and false disable caching.
+2. Number: enables caching with a time limit (ms).
+3. Function: will cache request, and also send a new request, then call the function with the update response.
+
 ## Url path placeholder
 
-For a descriptive url with less url string manipulation,
+For a descriptive url with less url string manipulation/concatenation,
 you can add simple descriptive placeholders to url path with a colon preceeding the placeholder name
 e.g. http://domain.tld/path/:placeholder/action/:id
 
