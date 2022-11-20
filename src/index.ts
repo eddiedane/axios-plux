@@ -264,31 +264,40 @@ const resolveNamedRouteConfig = (
   args: any[],
 ): RequestData$Config => {
   let config: RequestData$Config = {};
+  let configVars;
 
   if (
     args[0] == null ||
     (typeof args[0] === 'object' && !Array.isArray(args[0]))
   ) {
     config = mergeConfigs(args[0] || {}, args[1]);
+
     if (Array.isArray(config.vars || config.$vars)) {
-      if ('vars' in config)
-        config.vars = getPathPlaceholders(
-          url,
-          config.vars as (string | number)[],
-        );
-      else
-        config.vars = getPathPlaceholders(
-          url,
-          config.$vars as (string | number)[],
-        );
+      configVars = getPathPlaceholders(
+        url,
+        (config.vars || config.$vars) as (string | number)[],
+      );
     }
   } else {
-    config = {
-      vars: getPathPlaceholders(url, Array.isArray(args[0]) ? args[0] : args),
-    };
+    configVars = getPathPlaceholders(
+      url,
+      Array.isArray(args[0]) ? args[0] : args,
+    );
   }
 
-  return config;
+  if (config.$vars) {
+    config.$vars = configVars;
+
+    const { vars, ...rest } = config;
+
+    return rest;
+  } else {
+    config.vars = configVars;
+
+    const { $vars, ...rest } = config;
+
+    return rest;
+  }
 };
 
 const getPathPlaceholders = (url: string, arr: (string | number)[]) => {
