@@ -471,22 +471,33 @@ const create = <RT = ObjectLiteral>(
   axiosPluxInstance.onRequest = (
     interceptor: (config: AxiosRequestConfig) => AxiosRequestConfig,
   ) => {
-    _axios.interceptors.request.use(interceptor, (err) => err);
+    _axios.interceptors.request.use(interceptor, (err) => Promise.reject(err));
   };
+
   axiosPluxInstance.onRequestError = (interceptor: (err: any) => any) => {
-    _axios.interceptors.request.use((config) => config, interceptor);
+    _axios.interceptors.request.use(
+      (config) => config,
+      (err) => {
+        const ret = interceptor(err);
+
+        return ret instanceof Promise ? ret : Promise.reject(err);
+      },
+    );
   };
+
   axiosPluxInstance.onResponse = (
     interceptor: (res: AxiosResponse) => AxiosResponse,
   ) => {
-    _axios.interceptors.response.use(interceptor, (err) => err);
+    _axios.interceptors.response.use(interceptor, (err) => Promise.reject(err));
   };
+
   axiosPluxInstance.onResponseError = (interceptor: (err: any) => any) => {
     _axios.interceptors.response.use(
       (res) => res,
       (err) => {
-        interceptor(err);
-        return Promise.reject(err);
+        const ret = interceptor(err);
+
+        return ret instanceof Promise ? ret : Promise.reject(err);
       },
     );
   };
