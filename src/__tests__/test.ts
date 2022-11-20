@@ -1,9 +1,9 @@
 import axiosPlux, { RouteType0, RouteType1 } from '../index';
 
 interface APIRoutes {
-  fetchUsers: RouteType0;
+  fetchPosts: RouteType0;
   createUser: RouteType1;
-  fetchUser: RouteType0;
+  fetchPost: RouteType0;
   agify: RouteType0;
 }
 
@@ -13,16 +13,14 @@ const globalRoutes = {
 
 const instanceRoutes = {
   // createUser: { path: '/users', method: 'POST' },
-  fetchUsers: '/users',
-  fetchUser: '/users/:id',
+  fetchPosts: '/posts',
+  fetchPost: '/posts/:id',
 };
 
 axiosPlux.routes = globalRoutes;
 
-const key = '5bd085261ce4460db045d23c8d765421';
-
 const jsonServer = axiosPlux.create<APIRoutes>({
-  baseURL: 'https://crudcrud.com/api/' + key,
+  baseURL: 'https://jsonplaceholder.typicode.com',
   routes: instanceRoutes,
 });
 
@@ -35,19 +33,23 @@ test('Response ok', () => {
 
 test('Response not ok', () => {
   const promise = jsonServer
-    .get('/posts/99999999')
+    .get('/posts/999999999999-404')
     .then((res) => res.status)
     .catch((err) => err.response.status);
 
   return expect(promise).resolves.toBe(404);
 });
 
-test('Request url with vars', () => {
+test('Request create post', () => {
   const promise = jsonServer
-    .post('/users', { firstName: 'John', lastName: 'Doe' })
-    .then(async (res) => {
-      return jsonServerApi.fetchUser(res.data._id).then((res) => res.status);
-    });
+    .post('/posts', { title: 'From Axios Plux', body: '...', userId: 1 })
+    .then(async (res) => res.status);
+
+  return expect(promise).resolves.toBe(201);
+});
+
+test('Request fetch post', () => {
+  const promise = jsonServerApi.fetchPost(100).then(async (res) => res.status);
 
   return expect(promise).resolves.toBe(200);
 });
